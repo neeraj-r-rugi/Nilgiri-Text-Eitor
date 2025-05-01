@@ -1,0 +1,12 @@
+CC = gcc
+CFLAGS = `pkg-config --cflags gtk+-3.0 gtksourceview-3.0`  -Iinclude -Wno-deprecated-declarations
+LDFLAGS = `pkg-config --libs gtk+-3.0 gtksourceview-3.0`
+LIBS = `pkg-config --libs gtk+-3.0`
+SRC = src/main.c src/defines.c src/file_handling.c src/fonts.c src/process.c
+OUT = program.out
+
+all:
+	$(CC) $(SRC) -o $(OUT) $(CFLAGS) $(LDFLAGS) $(LIBS) 
+
+clean:
+	rm -f $(OUT)

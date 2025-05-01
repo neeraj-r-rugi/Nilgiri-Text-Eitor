@@ -1,0 +1,35 @@
+#ifndef DEFINES_H
+#define DEFINES_H
+/********************************************************************* */
+/*
+    @about: Consists of header declarations for the programs
+*/
+
+//External and System Header Inclusion
+#include<stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
+#include<string.h>
+#include<gtk/gtk.h> //!External Requirement
+#include<gtksourceview/gtksource.h>//!!External Requirement
+#include<stdint.h>
+
+
+//Internal Header Inclusion
+#include "file_handling.h"
+#include "main.h"
+#include "fonts.h"
+#include "process.h"
+/********************************************************************* */
+
+
+/********************************************************************* */
+/*
+    @about: All global Variable Declarations done here 
+
+*/
+extern const short int DEFAULT_FONT_SIZE;
+extern short int CURRENT_FONT_SIZE;
+
+/********************************************************************* */
+#endif
