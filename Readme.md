@@ -21,5 +21,5 @@ Begin By installing the:
 
 ### How to get started?
 1. Begin by Compiling the editor using the Makefile provided.
-2. Enter the command: `make` or `mingw32-make`(On Some OS's such as Windows) in the termianl in the this directory's context
+2. Enter the command: `make` or `mingw32-make`(On Some OS's such as Windows) in the termianl in this directorys context.
 3. The Binary Executable will be produced and the editor is ready to use!
