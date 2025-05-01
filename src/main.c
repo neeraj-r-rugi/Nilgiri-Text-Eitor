@@ -12,15 +12,15 @@
         -> Comments bearing "!External Requirement" indicate header files not present in the standard C Library
 
 */
-static void temp(){}
+static void temp(){}//A temporary function that serves no purpose.
 
 
 static void activate(GtkApplication *app, gpointer user_data) {
-    GtkWidget *window;
-    GtkWidget *scrollable_window;
-    GtkSourceView *text_area;
-    GtkSourceBuffer *buffer;
-    GdkEventKey *key_event;
+    GtkWidget *window;  //*Declaring the Editor window
+    GtkWidget *scrollable_window;//* Makes the current window in context scrollable
+    GtkSourceView *text_area;//*From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
+    GtkSourceBuffer *buffer;//*Implements the text Buffer for GtkSourceView
+    GdkEventKey *key_event;//!This hasn't been used anywhere, check validity of this declarartion.
 
 
     //Create window

@@ -28,8 +28,8 @@
     @about: All global Variable Declarations done here 
 
 */
-extern const short int DEFAULT_FONT_SIZE;
-extern short int CURRENT_FONT_SIZE;
+extern const short int DEFAULT_FONT_SIZE;//Declares the intial font size to be set
+extern short int CURRENT_FONT_SIZE;//Updated Font Size
 
 /********************************************************************* */
 #endif
