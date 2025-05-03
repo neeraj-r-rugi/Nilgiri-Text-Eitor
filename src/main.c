@@ -12,12 +12,49 @@
         -> Comments bearing "!External Requirement" indicate header files not present in the standard C Library
 
 */
-static void temp(){}//A temporary function that serves no purpose.
 
+//Global Variables
+GtkWidget *zoom_popup = NULL;
 
-static void activate(GtkApplication *app, gpointer user_data) {
+//A temporary function that serves no purpose.
+static void temp(){}
+
+static void load_css_for_wideget(GtkWidget * widget, const char * file_path){
+    GtkCssProvider *provider = gtk_css_provider_new();
+    GError *error = NULL;
+    if (!gtk_css_provider_load_from_path(provider, file_path, &error)) {
+        g_warning("Failed to load CSS file: %s", error->message);
+        g_clear_error(&error);
+    }
+    GtkStyleContext *context = gtk_widget_get_style_context(widget);
+    gtk_style_context_add_provider(context,
+        GTK_STYLE_PROVIDER(provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+    g_object_unref(provider);
+
+}
+
+static void init_zoom_overlay(GtkWidget ** zoom, GtkWidget * overlay){
+    GtkCssProvider *provider = gtk_css_provider_new();
+    *zoom = gtk_label_new("");
+    gtk_widget_set_halign(*zoom, GTK_ALIGN_END);
+    gtk_widget_set_valign(*zoom, GTK_ALIGN_END);
+    gtk_widget_set_margin_bottom(*zoom, 10);
+    gtk_widget_set_margin_top(*zoom, 10);
+    gtk_widget_set_margin_end(*zoom,10);
+    gtk_widget_set_name(*zoom, "zoom-popup");//Set Name For CSS
+    load_css_for_wideget(*zoom, CSS_FILE_PATH);// Call CSS Styling for widget
+    gtk_widget_hide(*zoom);
+    gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *zoom);
+
+}
+
+static void activate(GtkApplication * app, gpointer user_data) {
+    //
     GtkWidget *window;  //*Declaring the Editor window
     GtkWidget *scrollable_window;//* Makes the current window in context scrollable
+    GtkWidget *zoom_overlay; //Declaration for the overlay when the user Zooms the font;
     GtkSourceView *text_area;//*From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
     GtkSourceBuffer *buffer;//*Implements the text Buffer for GtkSourceView
     GdkEventKey *key_event;//!This hasn't been used anywhere, check validity of this declarartion.
@@ -45,6 +82,10 @@ static void activate(GtkApplication *app, gpointer user_data) {
     //Checking for Key Events
     g_signal_connect(window, "key-press-event", G_CALLBACK(zoom_key_pressed), NULL);
     
+    //Initialise Zoom overlay
+    zoom_overlay = gtk_overlay_new();
+    gtk_container_add(GTK_CONTAINER(scrollable_window), zoom_overlay);
+    init_zoom_overlay(&zoom_popup, zoom_overlay);
 
     gtk_widget_show_all(window);
 }

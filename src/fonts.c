@@ -1,6 +1,7 @@
 #include "fonts.h"
 
 void editor_apply_font_size(GtkWidget* window, short int font_size){
+    show_zoom_overlay();
     PangoFontDescription *editor_font = pango_font_description_new();
     pango_font_description_set_family(editor_font, "monospace");
     pango_font_description_set_size(editor_font, font_size * PANGO_SCALE);
