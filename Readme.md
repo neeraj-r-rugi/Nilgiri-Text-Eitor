@@ -23,3 +23,11 @@ Begin By installing the:
 1. Begin by Compiling the editor using the Makefile provided.
 2. Enter the command: `make` or `mingw32-make`(On Some OS's such as Windows) in the termianl in this directorys context.
 3. The Binary Executable will be produced and the editor is ready to use!
+
+### Key Binds: 
+1. **Zoom Keys**:
+    * _'ctrl' + '='_ :  Zoom In
+    * _'ctrl' + '-'_:   Zoom Out
+2. **Close Editor**:
+    * _'ctrl' + 'esc'_: Closes the editor.
+
