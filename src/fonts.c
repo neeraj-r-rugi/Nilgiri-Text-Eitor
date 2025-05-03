@@ -12,8 +12,10 @@ void editor_apply_font_size(GtkWidget* window, short int font_size){
 }
 
 void editor_zoom_in(GtkWidget* window){
-    CURRENT_FONT_SIZE += 1;
-    editor_apply_font_size(window, CURRENT_FONT_SIZE);
+    if(CURRENT_FONT_SIZE < 54){
+        CURRENT_FONT_SIZE += 1;
+        editor_apply_font_size(window, CURRENT_FONT_SIZE);
+    }
 }
 
 void editor_zoom_out(GtkWidget* window){

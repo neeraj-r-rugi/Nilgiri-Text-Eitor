@@ -11,3 +11,12 @@ gboolean zoom_key_pressed(GtkWidget* window, GdkEventKey* event){
         return FALSE;
     }
 }
+
+gboolean quit_key_pressed(GtkWidget * window, GdkEventKey * event, gpointer user_data){
+    if(((event->state && GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_Escape))){
+        g_application_quit(user_data);
+        return TRUE;
+    }
+    return FALSE;
+
+}

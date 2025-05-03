@@ -38,27 +38,28 @@ static void load_css_for_wideget(GtkWidget * widget, const char * file_path){
 static void init_zoom_overlay(GtkWidget ** zoom, GtkWidget * overlay){
     GtkCssProvider *provider = gtk_css_provider_new();
     *zoom = gtk_label_new("");
-    gtk_widget_set_halign(*zoom, GTK_ALIGN_END);
-    gtk_widget_set_valign(*zoom, GTK_ALIGN_END);
+    gtk_widget_set_halign(*zoom, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(*zoom, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_bottom(*zoom, 10);
     gtk_widget_set_margin_top(*zoom, 10);
     gtk_widget_set_margin_end(*zoom,10);
     gtk_widget_set_name(*zoom, "zoom-popup");//Set Name For CSS
     load_css_for_wideget(*zoom, CSS_FILE_PATH);// Call CSS Styling for widget
-    gtk_widget_hide(*zoom);
     gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *zoom);
 
-}
+}   
 
 static void activate(GtkApplication * app, gpointer user_data) {
     //
     GtkWidget *window;  //*Declaring the Editor window
     GtkWidget *scrollable_window;//* Makes the current window in context scrollable
-    GtkWidget *zoom_overlay; //Declaration for the overlay when the user Zooms the font;
+    GtkWidget *master_overlay; //Declaration for the overlay when the user Zooms the font;
     GtkSourceView *text_area;//*From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
     GtkSourceBuffer *buffer;//*Implements the text Buffer for GtkSourceView
     GdkEventKey *key_event;//!This hasn't been used anywhere, check validity of this declarartion.
 
+    //Overlay Intialisation
+    master_overlay = gtk_overlay_new();
 
     //Create window
     window = gtk_application_window_new(app);
@@ -68,7 +69,6 @@ static void activate(GtkApplication * app, gpointer user_data) {
     
     //Make window scrollable
     scrollable_window = gtk_scrolled_window_new(NULL, NULL);
-    gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(scrollable_window));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollable_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     
     //Add Text Editor(GtkSourceView) to scrolable window
@@ -76,18 +76,26 @@ static void activate(GtkApplication * app, gpointer user_data) {
     text_area = GTK_SOURCE_VIEW(gtk_source_view_new_with_buffer(buffer));
     gtk_source_view_set_show_line_numbers(text_area, TRUE);//Adds Line Number to Text Editor
     gtk_source_view_set_auto_indent(text_area, TRUE);//Adds Auto Indent to text Editor
-    gtk_container_add(GTK_CONTAINER(scrollable_window), GTK_WIDGET(text_area));
-    //gtk_container_add(GTK_CONTAINER(window), scrollable_window);
     
     //Checking for Key Events
     g_signal_connect(window, "key-press-event", G_CALLBACK(zoom_key_pressed), NULL);
-    
-    //Initialise Zoom overlay
-    zoom_overlay = gtk_overlay_new();
-    gtk_container_add(GTK_CONTAINER(scrollable_window), zoom_overlay);
-    init_zoom_overlay(&zoom_popup, zoom_overlay);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(quit_key_pressed), app);
 
+    //Adding Containers
+    gtk_container_add(GTK_CONTAINER(scrollable_window), GTK_WIDGET(text_area));
+    gtk_container_add(GTK_CONTAINER(master_overlay), scrollable_window);
+    gtk_container_add(GTK_CONTAINER(window), master_overlay);
+
+    //Initialise Zoom overlay
+    init_zoom_overlay(&zoom_popup, master_overlay);
+
+
+
+    //Dispaly All Required UI Initially 
     gtk_widget_show_all(window);
+
+    //UI that does not need to be shown at start
+    gtk_widget_hide(zoom_popup);
 }
 
 int main(int argc, char **argv) {

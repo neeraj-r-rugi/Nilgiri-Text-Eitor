@@ -8,7 +8,6 @@ static guint zoom_overlay_timeout = 0;
 static void hide_zoom_popup(){
     gtk_widget_hide(zoom_popup);
     zoom_overlay_timeout = 0;
-    printf("Overlay Removed\n");
 }
 
 static gboolean hide_zoom_popup_cb(){
@@ -17,9 +16,8 @@ static gboolean hide_zoom_popup_cb(){
 }
 
 void show_zoom_overlay(){
-    printf("Overlay Shown\n");
     char buff[64];
-    int font_per = (DEFAULT_FONT_SIZE / CURRENT_FONT_SIZE) * 100;
+    int font_per = ((float)CURRENT_FONT_SIZE / (float)DEFAULT_FONT_SIZE) * 100;
     snprintf(buff, sizeof(buff), "Zoom Level: %d%%", font_per);
     gtk_label_set_text(GTK_LABEL(zoom_popup), buff);
     gtk_widget_show(zoom_popup);
