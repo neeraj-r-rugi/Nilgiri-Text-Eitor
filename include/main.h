@@ -4,6 +4,7 @@
 
 //Variable Declaration
 extern GtkWidget* zoom_popup;//The Label pointer to be displayed when Zooming
+extern GtkWidget* search_replace_box;
 
 //Function Prototype
 /*------------------------------------------------------------------------------*/
@@ -16,14 +17,27 @@ static void activate(GtkApplication *, gpointer);
 /*
     @brief: Intialises the Zoom Overlay, to be used whenever the user Zooms
     @param: The Pointer of the GTK Label that displays the Zoom Text
-    @param: The Zoom Overlay
+    @param: The Master Overlay
 */
 static void init_zoom_overlay(GtkWidget ** , GtkWidget *);
 /*
     @brief: Loads the CSS data for the parsed object
-    @param: TThe Widget whose Style is to applied
+    @param: The Widget whose Style is to applied
     @param: The Path where The CSS file is
 */
 static void load_css_for_wideget(GtkWidget *, const char *);
+/*
+    @brief: Checks weather there is data and search and highlights it.
+    @param: The text buffer itself
+*/
+static GtkTextTag* ensure_search_tag(GtkTextBuffer *buffer);
+/*The folllowing functions purpose is trivial and related to serach replace*/
+/*-----------------------------------------------------------------------*/
+static void clear_highlights(GtkSourceBuffer *buffer);
+static void on_search_changed(GtkEntry *entry, gpointer user_data);
+static void on_replace_next_clicked(GtkButton *button, gpointer user_data);
+static void on_replace_all_clicked(GtkButton *button, gpointer user_data);
+/*-----------------------------------------------------------------------*/
+
 /*------------------------------------------------------------------------------*/
 #endif

@@ -1,4 +1,8 @@
 {
     "makefile.configureOnOpen": true,
-    "C_Cpp.default.compilerPath": "/usr/bin/gcc"
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+    "files.associations": {
+        "gtksourcesearchcontext.h": "c",
+        "defines.h": "c"
+    }
 }

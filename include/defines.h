@@ -10,9 +10,9 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
+#include<stdint.h>
 #include<gtk/gtk.h> //!External Requirement
 #include<gtksourceview/gtksource.h>//!!External Requirement
-#include<stdint.h>
 
 
 //Internal Header Inclusion
@@ -38,6 +38,7 @@
 */
 extern const short int DEFAULT_FONT_SIZE;//Declares the intial font size to be set
 extern short int CURRENT_FONT_SIZE;//Updated Font Size
+extern gboolean IS_DARK_THEME;//Toggles weather Dark Theme Should be enabled or Not.
 
 /********************************************************************* */
 #endif
