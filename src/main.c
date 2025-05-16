@@ -42,7 +42,7 @@ static GtkTextTag *ensure_search_tag(GtkTextBuffer *buffer)
     return tag;
 }
 
-static void clear_highlights(GtkSourceBuffer *buffer)
+void clear_highlights(GtkSourceBuffer *buffer)
 {
     GtkTextIter start, end;
     gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer), &start);
@@ -180,6 +180,10 @@ static void activate(GtkApplication *app, gpointer user_data)
     GtkSourceView *text_area;                                         //*From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
     GtkSourceBuffer *buffer;                                          //*Implements the text Buffer for GtkSourceView
     GdkEventKey *key_event;                                           //! This hasn't been used anywhere, check validity of this declarartion.
+    GtkWidget * master_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+
+
 
     // Overlay Intialisation
     master_overlay = gtk_overlay_new();
@@ -226,7 +230,7 @@ static void activate(GtkApplication *app, gpointer user_data)
     g_signal_connect(window, "key-press-event", G_CALLBACK(zoom_key_pressed), NULL);
     g_signal_connect(window, "key-press-event", G_CALLBACK(quit_key_pressed), app);
     g_signal_connect(window, "key-press-event", G_CALLBACK(toggle_dark_theme), NULL);
-    g_signal_connect(window, "key-press-event", G_CALLBACK(show_search_replace_box), NULL);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(show_search_replace_box), buffer);
     g_signal_connect(search_entry, "changed", G_CALLBACK(on_search_changed), data);
     g_signal_connect(replace_next_btn, "clicked", G_CALLBACK(on_replace_next_clicked), data);
     g_signal_connect(replace_all_btn, "clicked", G_CALLBACK(on_replace_all_clicked), data);
@@ -234,7 +238,8 @@ static void activate(GtkApplication *app, gpointer user_data)
     // Adding Containers
     gtk_container_add(GTK_CONTAINER(scrollable_window), GTK_WIDGET(text_area));
     gtk_container_add(GTK_CONTAINER(master_overlay), scrollable_window);
-    gtk_container_add(GTK_CONTAINER(window), master_overlay);
+    gtk_box_pack_start(GTK_BOX(master_box), master_overlay, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(window), master_box);
 
     // Initialise Zoom overlay
     init_zoom_overlay(&zoom_popup, master_overlay);

@@ -33,7 +33,7 @@ static void load_css_for_wideget(GtkWidget *, const char *);
 static GtkTextTag* ensure_search_tag(GtkTextBuffer *buffer);
 /*The folllowing functions purpose is trivial and related to serach replace*/
 /*-----------------------------------------------------------------------*/
-static void clear_highlights(GtkSourceBuffer *buffer);
+void clear_highlights(GtkSourceBuffer *buffer);
 static void on_search_changed(GtkEntry *entry, gpointer user_data);
 static void on_replace_next_clicked(GtkButton *button, gpointer user_data);
 static void on_replace_all_clicked(GtkButton *button, gpointer user_data);
