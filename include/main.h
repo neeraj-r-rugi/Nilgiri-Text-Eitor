@@ -5,6 +5,7 @@
 //Variable Declaration
 extern GtkWidget* zoom_popup;//The Label pointer to be displayed when Zooming
 extern GtkWidget* search_replace_box;
+extern GtkSourceBuffer *buffer; 
 
 //Function Prototype
 /*------------------------------------------------------------------------------*/
@@ -31,6 +32,11 @@ static void load_css_for_wideget(GtkWidget *, const char *);
     @param: The text buffer itself
 */
 static GtkTextTag* ensure_search_tag(GtkTextBuffer *buffer);
+/*
+    @brief: Intialises the menu bar
+    @param: The master menu widget. 
+*/
+static void innit_menu_bar(GtkWidget *, GtkWidget *, GtkApplication *);
 /*The folllowing functions purpose is trivial and related to serach replace*/
 /*-----------------------------------------------------------------------*/
 void clear_highlights(GtkSourceBuffer *buffer);

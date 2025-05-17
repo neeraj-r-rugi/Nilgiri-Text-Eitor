@@ -11,8 +11,10 @@
 #include<ctype.h>
 #include<string.h>
 #include<stdint.h>
+#include<stdbool.h>
 #include<gtk/gtk.h> //!External Requirement
 #include<gtksourceview/gtksource.h>//!!External Requirement
+
 
 
 //Internal Header Inclusion
@@ -21,6 +23,7 @@
 #include "fonts.h"
 #include "process.h"
 #include "overlays.h"
+#include "menu_bar.h"
 /********************************************************************* */
 
 /********************************************************************* */

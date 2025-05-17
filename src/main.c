@@ -13,9 +13,11 @@
 
 */
 
+
 // Global Variables
 GtkWidget *zoom_popup = NULL;
 GtkWidget *search_replace_box = 0;
+GtkSourceBuffer *buffer = NULL;  
 
 // A structure that holds buffer data
 typedef struct
@@ -26,6 +28,8 @@ typedef struct
     GtkTextIter last_match_end;
     gboolean has_match;
 } SearchData;
+
+
 
 /*********************************************************************************************** */
 // Definitions of search and replace elements
@@ -138,6 +142,48 @@ static void on_replace_all_clicked(GtkButton *button, gpointer user_data)
 }
 /*********************************************************************************************** */
 
+static void innit_menu_bar(GtkWidget * menu_bar, GtkWidget * window, GtkApplication * app){
+    //File menu
+    GtkWidget *file_menu = gtk_menu_new();
+    GtkWidget * file_items = gtk_menu_item_new_with_label("File");
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(file_items), file_menu);//Set File items as submenu of menu bar
+    GtkWidget *open_item = gtk_menu_item_new_with_label("Open");
+    GtkWidget *save_item = gtk_menu_item_new_with_label("Save");
+    GtkWidget *quit_item = gtk_menu_item_new_with_label("Quit");
+    gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), open_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), save_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), quit_item);
+
+    //Tools menu
+    GtkWidget *tool_menu = gtk_menu_new();
+    GtkWidget * tool_items = gtk_menu_item_new_with_label("Tools");
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(tool_items), tool_menu);
+    GtkWidget *search_replace_item = gtk_menu_item_new_with_label("Search-Replace");
+    gtk_menu_shell_append(GTK_MENU_SHELL(tool_menu), search_replace_item);
+    //View Menu
+    GtkWidget *view_menu = gtk_menu_new();
+    GtkWidget * view_items = gtk_menu_item_new_with_label("View");
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(view_items), view_menu);
+    GtkWidget * zoom_in_item = gtk_menu_item_new_with_label("Zoom-In");
+    GtkWidget * zoom_out_item = gtk_menu_item_new_with_label("Zoom-Out");
+    gtk_menu_shell_append(GTK_MENU_SHELL(view_menu), zoom_in_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(view_menu), zoom_out_item);
+
+
+    //Add Submenu to Menu Bar
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), file_items);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), tool_items);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), view_items);
+
+    //Implementation of sub menu
+    g_signal_connect(search_replace_item, "activate", G_CALLBACK(menu_show_search_replace), NULL);
+    g_signal_connect(quit_item, "activate", G_CALLBACK(menu_application_quit), app);
+    g_signal_connect(zoom_in_item, "activate", G_CALLBACK(menu_zoom_in), window);
+    g_signal_connect(zoom_out_item, "activate", G_CALLBACK(menu_zoom_out), window);
+    
+}
+
+
 static void load_css_for_wideget(GtkWidget *widget, const char *file_path)
 {
     GtkCssProvider *provider = gtk_css_provider_new();
@@ -169,29 +215,34 @@ static void init_zoom_overlay(GtkWidget **zoom, GtkWidget *overlay)
     gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *zoom);
 }
 
-static void activate(GtkApplication *app, gpointer user_data)
+static void activate(GtkApplication * app, gpointer user_data)
 {
     // Window and Overlay Declarations
     GtkWidget *window; //*Declaring the Editor window
     GtkWidget *replace_next_btn, *replace_all_btn, *scrolled_window,
-        *text_view, *hbox, *entry_box, *search_entry, *replace_entry; // Widgets Pertaining to search and replace
-    GtkWidget *scrollable_window;                                     //* Makes the current window in context scrollable
-    GtkWidget *master_overlay;                                        // Declaration for the overlay when the user Zooms the font;
-    GtkSourceView *text_area;                                         //*From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
-    GtkSourceBuffer *buffer;                                          //*Implements the text Buffer for GtkSourceView
+        *text_view, *hbox, *entry_box, *search_entry, *replace_entry; // *Widgets Pertaining to search and replace
+    GtkWidget *scrollable_window;                                     // *Makes the current window in context scrollable
+    GtkWidget *master_overlay;                                        // *Declaration for the overlay when the user Zooms the font;
+    GtkSourceView *text_area;                                         // *From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
+                                            // *Implements the text Buffer for GtkSourceView
     GdkEventKey *key_event;                                           //! This hasn't been used anywhere, check validity of this declarartion.
-    GtkWidget * master_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    GtkWidget * master_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);// *Master box which holds the data for everything being rendered.
+    GtkWidget * menu_bar;
 
-
-
+    
+    
+    // Create editor window
+    window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "Nilgiri Text Editor");
+    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
 
     // Overlay Intialisation
     master_overlay = gtk_overlay_new();
 
-    // Create window
-    window = gtk_application_window_new(app);
-    gtk_window_set_title(GTK_WINDOW(window), "Nilgiri Text Editor");
-    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
+    //Menu Ribbon Intialisation
+    menu_bar = gtk_menu_bar_new();
+    innit_menu_bar(menu_bar, window, app);
+
 
     // Search and Replace Box and widgets
     search_replace_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -238,6 +289,7 @@ static void activate(GtkApplication *app, gpointer user_data)
     // Adding Containers
     gtk_container_add(GTK_CONTAINER(scrollable_window), GTK_WIDGET(text_area));
     gtk_container_add(GTK_CONTAINER(master_overlay), scrollable_window);
+    gtk_box_pack_start(GTK_BOX(master_box), menu_bar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(master_box), master_overlay, TRUE, TRUE, 0);
     gtk_container_add(GTK_CONTAINER(window), master_box);
 

@@ -5,11 +5,47 @@
 //Function Prototype
 
 
-gboolean zoom_key_pressed(GtkWidget*, GdkEventKey*);//*Function Checks if the valid keys to alter font size have been pressed.
-gboolean quit_key_pressed(GtkWidget *, GdkEventKey *, gpointer );//*Function Checks if the valid keys to quit the program have been pressed.
+/*
+    !!
+    @brief: UPDATE
+    @param: UPDATE
+    @param: UPDATE
+*/
+gboolean zoom_key_pressed(GtkWidget*, GdkEventKey*);
+/*
+    !!
+    @brief: UPDATE
+    @param: UPDATE
+    @param: UPDATE
+*/
+gboolean quit_key_pressed(GtkWidget *, GdkEventKey *, gpointer );
+/*
+    !!
+    @brief: UPDATE
+    @param: UPDATE
+    @param: UPDATE
+*/
 gboolean toggle_dark_theme(GtkWidget*, GdkEventKey*);
+/*
+    !!
+    @brief: UPDATE
+    @param: UPDATE
+    @param: UPDATE
+*/
 void set_theme(gboolean);
+/*
+    !!
+    @brief: UPDATE
+    @param: UPDATE
+    @param: UPDATE
+*/
 gboolean search_key_pressed(GtkWidget * , GdkEventKey * , gpointer );
+/*
+    !!
+    @brief: UPDATE
+    @param: UPDATE
+    @param: UPDATE
+*/
 gboolean show_search_replace_box(GtkWidget * , GdkEventKey * , gpointer );
 
 #endif
