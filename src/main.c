@@ -14,10 +14,14 @@
 */
 
 
+//! TODO:Make the save and load system better, add overlays for it, add alert boxes to indicate save before leaving 
+
 // Global Variables
+int * no_cmd_arg = NULL;
 GtkWidget *zoom_popup = NULL;
 GtkWidget *search_replace_box = 0;
-GtkSourceBuffer *buffer = NULL;  
+GtkSourceBuffer *buffer = NULL;
+char file_path[1024];  
 
 // A structure that holds buffer data
 typedef struct
@@ -32,6 +36,21 @@ typedef struct
 
 
 /*********************************************************************************************** */
+static int on_command_line(GApplication *app, GApplicationCommandLine *command_line, gpointer user_data) {
+    gchar **argv;
+    int argc;
+
+    argv = g_application_command_line_get_arguments(command_line, &argc);
+
+    if (argc > 1) {
+        strcpy(file_path, argv[1]);
+    }
+
+    g_application_activate(app);
+
+    return 0; // success
+}
+
 // Definitions of search and replace elements
 static GtkTextTag *ensure_search_tag(GtkTextBuffer *buffer)
 {
@@ -277,11 +296,18 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer), &data->last_match_end);
     data->has_match = FALSE;
 
+    //Load Files
+    if(*no_cmd_arg >1){
+
+        load_file_into_buffer();
+    }
+
     // Checking for Key Events
     g_signal_connect(window, "key-press-event", G_CALLBACK(zoom_key_pressed), NULL);
     g_signal_connect(window, "key-press-event", G_CALLBACK(quit_key_pressed), app);
     g_signal_connect(window, "key-press-event", G_CALLBACK(toggle_dark_theme), NULL);
     g_signal_connect(window, "key-press-event", G_CALLBACK(show_search_replace_box), buffer);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(save_key_pressed), NULL);
     g_signal_connect(search_entry, "changed", G_CALLBACK(on_search_changed), data);
     g_signal_connect(replace_next_btn, "clicked", G_CALLBACK(on_replace_next_clicked), data);
     g_signal_connect(replace_all_btn, "clicked", G_CALLBACK(on_replace_all_clicked), data);
@@ -322,7 +348,11 @@ int main(int argc, char **argv)
     GtkApplication *app;
     int status;
 
-    app = gtk_application_new("com.nilgiri.texteditor", G_APPLICATION_DEFAULT_FLAGS);
+    app = gtk_application_new("com.nilgiri.texteditor", G_APPLICATION_HANDLES_COMMAND_LINE);
+    no_cmd_arg = &argc;
+
+
+    g_signal_connect(app, "command-line", G_CALLBACK(on_command_line), NULL);
     g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
 
     status = g_application_run(G_APPLICATION(app), argc, argv);

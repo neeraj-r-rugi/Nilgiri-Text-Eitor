@@ -12,6 +12,15 @@ gboolean zoom_key_pressed(GtkWidget* window, GdkEventKey* event){
     }
 }
 
+gboolean save_key_pressed(GtkWidget* window, GdkEventKey* event){
+    if((event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_s)){
+        save_buffer_to_file();
+        return TRUE;
+    }else{
+        return FALSE;
+    }
+}
+
 gboolean quit_key_pressed(GtkWidget * window, GdkEventKey * event, gpointer user_data){
     if(((event->state && GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_Escape))){
         g_application_quit(user_data);

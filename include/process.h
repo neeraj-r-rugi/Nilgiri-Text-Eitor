@@ -48,4 +48,6 @@ gboolean search_key_pressed(GtkWidget * , GdkEventKey * , gpointer );
 */
 gboolean show_search_replace_box(GtkWidget * , GdkEventKey * , gpointer );
 
+gboolean save_key_pressed(GtkWidget* , GdkEventKey* );
+
 #endif
