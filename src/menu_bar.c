@@ -6,7 +6,12 @@ void menu_zoom_out(GtkWidget * call, gpointer window){
     editor_zoom_out(window);
 }
 void menu_application_quit(GtkWidget * call, gpointer app){
-    g_application_quit(app);
+    if(buffer_has_changed){
+        to_save_at_quit();
+    }
+    if(!buffer_has_changed){
+        g_application_quit(app);
+    }
 }
 void menu_show_search_replace(GtkWidget * widget, gpointer user_data){
     if(gtk_widget_get_visible(search_replace_box) == FALSE){

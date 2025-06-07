@@ -5,5 +5,6 @@
 
 void load_file_into_buffer();
 void save_buffer_to_file();
+void to_save_at_quit();
 
 #endif

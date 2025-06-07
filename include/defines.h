@@ -42,6 +42,11 @@
 extern const short int DEFAULT_FONT_SIZE;//Declares the intial font size to be set
 extern short int CURRENT_FONT_SIZE;//Updated Font Size
 extern gboolean IS_DARK_THEME;//Toggles weather Dark Theme Should be enabled or Not.
+extern gboolean buffer_has_changed;
+extern gboolean quit_program_after_save;
 
+
+//Functions
+void update_buufer_has_changed();
 /********************************************************************* */
 #endif

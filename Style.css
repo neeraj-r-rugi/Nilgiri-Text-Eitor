@@ -30,6 +30,13 @@
     font-weight: bold;
 
   }
+  #quit-file-saved-popup{
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+  }
 
 
   

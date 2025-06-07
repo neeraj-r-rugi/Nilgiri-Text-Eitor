@@ -23,7 +23,12 @@ gboolean save_key_pressed(GtkWidget* window, GdkEventKey* event){
 
 gboolean quit_key_pressed(GtkWidget * window, GdkEventKey * event, gpointer user_data){
     if(((event->state && GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_Escape))){
-        g_application_quit(user_data);
+        if(buffer_has_changed){
+            to_save_at_quit();
+        }
+        if(!buffer_has_changed){
+            g_application_quit(user_data);
+        }
         return TRUE;
     }
     return FALSE;
@@ -58,5 +63,14 @@ gboolean toggle_dark_theme(GtkWidget *window, GdkEventKey *event) {
 void set_theme(gboolean enable) {
     GtkSettings *theme_settings = gtk_settings_get_default();
     g_object_set(theme_settings, "gtk-application-prefer-dark-theme", enable, NULL);
+}
+
+void save_at_quit_no(GtkWidget * window, gpointer user_data){
+    g_application_quit(user_data);
+}
+
+void save_at_quit_yes(GtkWidget * window, gpointer user_data){
+    quit_program_after_save = TRUE;
+    save_buffer_to_file();
 }
 /******************************************************************************************* */

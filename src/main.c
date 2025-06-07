@@ -14,9 +14,9 @@
 */
 
 
-//! TODO:Make the save and load system better, add overlays for it, add alert boxes to indicate save before leaving 
-
 // Global Variables
+GtkWidget * save_at_quit_popup = NULL;
+SaveAtQuitButtons save_at_quit_buttons;
 GtkWidget * new_file_saved_popup = NULL;
 GtkWidget * new_file_saved_enrty = NULL;
 int * no_cmd_arg = NULL;
@@ -27,21 +27,13 @@ GtkSourceView * text_area = NULL;                                         // *Fr
 GtkSourceBuffer *buffer = NULL;
 char file_path[1024];  
 
-// A structure that holds buffer data
-typedef struct
-{
-    GtkSourceBuffer *buffer;
-    GtkEntry *search_entry;
-    GtkEntry *replace_entry;
-    GtkTextIter last_match_end;
-    gboolean has_match;
-} SearchData;
+
 
 
 
 /*********************************************************************************************** */
 static int on_command_line(GApplication *app, GApplicationCommandLine *command_line, gpointer user_data) {
-    gchar **argv;
+    gchar ** argv;
     int argc;
 
     argv = g_application_command_line_get_arguments(command_line, &argc);
@@ -58,7 +50,7 @@ static int on_command_line(GApplication *app, GApplicationCommandLine *command_l
 }
 
 // Definitions of search and replace elements
-static GtkTextTag *ensure_search_tag(GtkTextBuffer *buffer)
+static GtkTextTag * ensure_search_tag(GtkTextBuffer *buffer)
 {
     GtkTextTagTable *tag_table = gtk_text_buffer_get_tag_table(buffer);
     GtkTextTag *tag = gtk_text_tag_table_lookup(tag_table, "search-tag");
@@ -274,6 +266,46 @@ static void init_new_file_saved_overlay(GtkWidget ** popup, GtkWidget * overlay)
 
 }
 
+static void init_save_at_quit_popup(GtkWidget ** popup, GtkWidget * overlay){
+    GtkCssProvider *provider = gtk_css_provider_new();
+    *popup = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    GtkWidget * hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
+    GtkWidget *label = gtk_label_new("Your File is Not Saved\nDo you want to save?");
+    save_at_quit_buttons.button_yes = gtk_button_new_with_label("YES");
+    save_at_quit_buttons.button_no = gtk_button_new_with_label("NO");
+    save_at_quit_buttons.cancel = gtk_button_new_with_label("CANCEL");
+    
+
+    gtk_box_pack_start(GTK_BOX(*popup), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), save_at_quit_buttons.button_yes, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), save_at_quit_buttons.button_no, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), save_at_quit_buttons.cancel, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(*popup), hbox, TRUE, TRUE, 0);
+
+    gtk_widget_set_halign(*popup, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(*popup, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(*popup, 10);
+    gtk_widget_set_margin_top(*popup, 10);
+    gtk_widget_set_margin_end(*popup, 10);
+    gtk_widget_set_name(*popup, "quit-file-saved-popup");   // Set Name For CSS
+    load_css_for_wideget(*popup, CSS_FILE_PATH); // Call CSS Styling for widget
+    gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *popup);
+
+}
+
+gboolean check_to_quit(gpointer user_data){
+    if(quit_program_after_save && !buffer_has_changed){
+        g_application_quit(G_APPLICATION(user_data));
+    }
+    return TRUE;
+}
+
+void cancel_quit(){
+    gtk_widget_hide(save_at_quit_popup);
+    gtk_widget_set_sensitive(GTK_WIDGET(text_area), TRUE);
+}
+
 static void activate(GtkApplication * app, gpointer user_data)
 {
     // Window and Overlay Declarations
@@ -358,6 +390,9 @@ static void activate(GtkApplication * app, gpointer user_data)
     
     //Intialise New File Saved overlay
     init_new_file_saved_overlay(&new_file_saved_popup, master_overlay);
+
+    //Intilaise Save at quit popup
+    init_save_at_quit_popup(&save_at_quit_popup, master_overlay);
     
     // Adding Search Replace Overlay
     gtk_overlay_add_overlay(GTK_OVERLAY(master_overlay), search_replace_box);
@@ -381,6 +416,15 @@ static void activate(GtkApplication * app, gpointer user_data)
     g_signal_connect(replace_next_btn, "clicked", G_CALLBACK(on_replace_next_clicked), data);
     g_signal_connect(replace_all_btn, "clicked", G_CALLBACK(on_replace_all_clicked), data);
     g_signal_connect(new_file_saved_enrty, "activate", G_CALLBACK(save_buffer_to_file), NULL);
+    g_signal_connect(buffer, "changed", update_buufer_has_changed, NULL);
+    g_signal_connect(save_at_quit_buttons.button_yes, "clicked", G_CALLBACK(save_at_quit_yes), app);
+    g_signal_connect(save_at_quit_buttons.button_no, "clicked", G_CALLBACK(save_at_quit_no), app);
+    g_signal_connect(save_at_quit_buttons.cancel, "clicked", G_CALLBACK(cancel_quit), NULL);
+
+
+    //Quits the application after user saves/not saves
+    g_timeout_add(500, check_to_quit, app);
+    
 
     // Dispaly All Required UI Initially
     gtk_widget_show_all(window);
@@ -390,6 +434,7 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_widget_hide(search_replace_box);
     gtk_widget_hide(file_saved_popup);
     gtk_widget_hide(new_file_saved_popup);
+    gtk_widget_hide(save_at_quit_popup);
     // g_free(data);
 }
 
