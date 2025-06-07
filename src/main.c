@@ -18,7 +18,8 @@
 
 // Global Variables
 int * no_cmd_arg = NULL;
-GtkWidget *zoom_popup = NULL;
+GtkWidget * zoom_popup = NULL;
+GtkWidget * file_saved_popup = NULL;
 GtkWidget *search_replace_box = 0;
 GtkSourceBuffer *buffer = NULL;
 char file_path[1024];  
@@ -44,6 +45,8 @@ static int on_command_line(GApplication *app, GApplicationCommandLine *command_l
 
     if (argc > 1) {
         strcpy(file_path, argv[1]);
+    }else{
+        strcpy(file_path, "");
     }
 
     g_application_activate(app);
@@ -166,10 +169,8 @@ static void innit_menu_bar(GtkWidget * menu_bar, GtkWidget * window, GtkApplicat
     GtkWidget *file_menu = gtk_menu_new();
     GtkWidget * file_items = gtk_menu_item_new_with_label("File");
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file_items), file_menu);//Set File items as submenu of menu bar
-    GtkWidget *open_item = gtk_menu_item_new_with_label("Open");
     GtkWidget *save_item = gtk_menu_item_new_with_label("Save");
     GtkWidget *quit_item = gtk_menu_item_new_with_label("Quit");
-    gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), open_item);
     gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), save_item);
     gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), quit_item);
 
@@ -199,6 +200,7 @@ static void innit_menu_bar(GtkWidget * menu_bar, GtkWidget * window, GtkApplicat
     g_signal_connect(quit_item, "activate", G_CALLBACK(menu_application_quit), app);
     g_signal_connect(zoom_in_item, "activate", G_CALLBACK(menu_zoom_in), window);
     g_signal_connect(zoom_out_item, "activate", G_CALLBACK(menu_zoom_out), window);
+    g_signal_connect(save_item, "activate", G_CALLBACK(save_buffer_to_file), window);
     
 }
 
@@ -232,6 +234,20 @@ static void init_zoom_overlay(GtkWidget **zoom, GtkWidget *overlay)
     gtk_widget_set_name(*zoom, "zoom-popup");   // Set Name For CSS
     load_css_for_wideget(*zoom, CSS_FILE_PATH); // Call CSS Styling for widget
     gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *zoom);
+}
+
+static void init_file_saved_overlay(GtkWidget ** popup, GtkWidget * overlay){
+    GtkCssProvider *provider = gtk_css_provider_new();
+    *popup = gtk_label_new("");
+    gtk_widget_set_halign(*popup, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(*popup, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_bottom(*popup, 10);
+    gtk_widget_set_margin_top(*popup, 10);
+    gtk_widget_set_margin_end(*popup, 10);
+    gtk_widget_set_name(*popup, "file-saved-popup");   // Set Name For CSS
+    load_css_for_wideget(*popup, CSS_FILE_PATH); // Call CSS Styling for widget
+    gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *popup);
+
 }
 
 static void activate(GtkApplication * app, gpointer user_data)
@@ -322,6 +338,9 @@ static void activate(GtkApplication * app, gpointer user_data)
     // Initialise Zoom overlay
     init_zoom_overlay(&zoom_popup, master_overlay);
 
+    //Initialise File Saved overlay
+    init_file_saved_overlay(&file_saved_popup, master_overlay);
+
     // Adding Search Replace Overlay
     gtk_overlay_add_overlay(GTK_OVERLAY(master_overlay), search_replace_box);
     gtk_widget_set_halign(search_replace_box, GTK_ALIGN_END);
@@ -340,6 +359,7 @@ static void activate(GtkApplication * app, gpointer user_data)
     // UI that does not need to be shown at start
     gtk_widget_hide(zoom_popup);
     gtk_widget_hide(search_replace_box);
+    gtk_widget_hide(file_saved_popup);
     // g_free(data);
 }
 

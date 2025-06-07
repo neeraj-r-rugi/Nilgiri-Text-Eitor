@@ -24,7 +24,7 @@ void load_file_into_buffer(){
 
 
 void save_buffer_to_file() {
-    if(*no_cmd_arg != 1){
+    if(strcmp(file_path, "") != 0){
         GtkTextIter start, end;
         gchar *text;
         GError *error = NULL;
@@ -43,8 +43,8 @@ void save_buffer_to_file() {
         } else {
             //Nothing For Future
         }
-    
         g_free(text);
+        show_file_saved_overlay();
     }
 }
 

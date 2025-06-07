@@ -4,6 +4,7 @@
 
 //Variable Declaration
 extern GtkWidget* zoom_popup;//The Label pointer to be displayed when Zooming
+extern GtkWidget * file_saved_popup;
 extern GtkWidget* search_replace_box;
 extern GtkSourceBuffer *buffer; 
 extern char file_path[1024];
@@ -46,6 +47,15 @@ static void on_search_changed(GtkEntry *entry, gpointer user_data);
 static void on_replace_next_clicked(GtkButton *button, gpointer user_data);
 static void on_replace_all_clicked(GtkButton *button, gpointer user_data);
 /*-----------------------------------------------------------------------*/
+/*
+    @brief: Update
+    @param: Update
+*/
 static int on_command_line(GApplication *, GApplicationCommandLine *, gpointer );
+/*
+    @brief: Update
+    @param: Update
+*/
+static void init_file_saved_overlay(GtkWidget **, GtkWidget *);
 /*------------------------------------------------------------------------------*/
 #endif
