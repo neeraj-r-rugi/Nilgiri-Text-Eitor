@@ -17,10 +17,13 @@
 //! TODO:Make the save and load system better, add overlays for it, add alert boxes to indicate save before leaving 
 
 // Global Variables
+GtkWidget * new_file_saved_popup = NULL;
+GtkWidget * new_file_saved_enrty = NULL;
 int * no_cmd_arg = NULL;
 GtkWidget * zoom_popup = NULL;
 GtkWidget * file_saved_popup = NULL;
 GtkWidget *search_replace_box = 0;
+GtkSourceView * text_area = NULL;                                         // *From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
 GtkSourceBuffer *buffer = NULL;
 char file_path[1024];  
 
@@ -250,6 +253,27 @@ static void init_file_saved_overlay(GtkWidget ** popup, GtkWidget * overlay){
 
 }
 
+static void init_new_file_saved_overlay(GtkWidget ** popup, GtkWidget * overlay){
+    GtkCssProvider *provider = gtk_css_provider_new();
+    *popup = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+
+    GtkWidget *label = gtk_label_new("Enter The Filename with valid file extension to save\nEnter `~` blank to cancel save");
+    new_file_saved_enrty= gtk_entry_new();
+
+    gtk_box_pack_start(GTK_BOX(*popup), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(*popup), new_file_saved_enrty, FALSE, FALSE, 0);
+
+    gtk_widget_set_halign(*popup, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(*popup, GTK_ALIGN_START);
+    gtk_widget_set_margin_bottom(*popup, 10);
+    gtk_widget_set_margin_top(*popup, 10);
+    gtk_widget_set_margin_end(*popup, 10);
+    gtk_widget_set_name(*popup, "new-file-saved-popup");   // Set Name For CSS
+    load_css_for_wideget(*popup, CSS_FILE_PATH); // Call CSS Styling for widget
+    gtk_overlay_add_overlay(GTK_OVERLAY(overlay), *popup);
+
+}
+
 static void activate(GtkApplication * app, gpointer user_data)
 {
     // Window and Overlay Declarations
@@ -258,8 +282,7 @@ static void activate(GtkApplication * app, gpointer user_data)
         *text_view, *hbox, *entry_box, *search_entry, *replace_entry; // *Widgets Pertaining to search and replace
     GtkWidget *scrollable_window;                                     // *Makes the current window in context scrollable
     GtkWidget *master_overlay;                                        // *Declaration for the overlay when the user Zooms the font;
-    GtkSourceView *text_area;                                         // *From GtkSourceView, Implenets a Screen wide textfield (Where all the text can be editied)
-                                            // *Implements the text Buffer for GtkSourceView
+    
     GdkEventKey *key_event;                                           //! This hasn't been used anywhere, check validity of this declarartion.
     GtkWidget * master_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);// *Master box which holds the data for everything being rendered.
     GtkWidget * menu_bar;
@@ -318,29 +341,24 @@ static void activate(GtkApplication * app, gpointer user_data)
         load_file_into_buffer();
     }
 
-    // Checking for Key Events
-    g_signal_connect(window, "key-press-event", G_CALLBACK(zoom_key_pressed), NULL);
-    g_signal_connect(window, "key-press-event", G_CALLBACK(quit_key_pressed), app);
-    g_signal_connect(window, "key-press-event", G_CALLBACK(toggle_dark_theme), NULL);
-    g_signal_connect(window, "key-press-event", G_CALLBACK(show_search_replace_box), buffer);
-    g_signal_connect(window, "key-press-event", G_CALLBACK(save_key_pressed), NULL);
-    g_signal_connect(search_entry, "changed", G_CALLBACK(on_search_changed), data);
-    g_signal_connect(replace_next_btn, "clicked", G_CALLBACK(on_replace_next_clicked), data);
-    g_signal_connect(replace_all_btn, "clicked", G_CALLBACK(on_replace_all_clicked), data);
-
+    
+    
     // Adding Containers
     gtk_container_add(GTK_CONTAINER(scrollable_window), GTK_WIDGET(text_area));
     gtk_container_add(GTK_CONTAINER(master_overlay), scrollable_window);
     gtk_box_pack_start(GTK_BOX(master_box), menu_bar, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(master_box), master_overlay, TRUE, TRUE, 0);
     gtk_container_add(GTK_CONTAINER(window), master_box);
-
+    
     // Initialise Zoom overlay
     init_zoom_overlay(&zoom_popup, master_overlay);
-
+    
     //Initialise File Saved overlay
     init_file_saved_overlay(&file_saved_popup, master_overlay);
-
+    
+    //Intialise New File Saved overlay
+    init_new_file_saved_overlay(&new_file_saved_popup, master_overlay);
+    
     // Adding Search Replace Overlay
     gtk_overlay_add_overlay(GTK_OVERLAY(master_overlay), search_replace_box);
     gtk_widget_set_halign(search_replace_box, GTK_ALIGN_END);
@@ -353,6 +371,17 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_widget_set_can_focus(replace_entry, TRUE);
     gtk_widget_set_can_focus(GTK_WIDGET(text_area), TRUE);
 
+    // Checking for Key Events
+    g_signal_connect(window, "key-press-event", G_CALLBACK(zoom_key_pressed), NULL);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(quit_key_pressed), app);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(toggle_dark_theme), NULL);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(show_search_replace_box), buffer);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(save_key_pressed), NULL);
+    g_signal_connect(search_entry, "changed", G_CALLBACK(on_search_changed), data);
+    g_signal_connect(replace_next_btn, "clicked", G_CALLBACK(on_replace_next_clicked), data);
+    g_signal_connect(replace_all_btn, "clicked", G_CALLBACK(on_replace_all_clicked), data);
+    g_signal_connect(new_file_saved_enrty, "activate", G_CALLBACK(save_buffer_to_file), NULL);
+
     // Dispaly All Required UI Initially
     gtk_widget_show_all(window);
 
@@ -360,6 +389,7 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_widget_hide(zoom_popup);
     gtk_widget_hide(search_replace_box);
     gtk_widget_hide(file_saved_popup);
+    gtk_widget_hide(new_file_saved_popup);
     // g_free(data);
 }
 

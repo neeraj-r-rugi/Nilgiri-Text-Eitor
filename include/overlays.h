@@ -14,6 +14,7 @@ static gboolean hide_zoom_popup_cb();
 static void hide_zoom_popup();
 static void hide_file_saved_popup();
 static gboolean hide_file_saved_popup_cb();
+
 /******************************************************************* */
 
 #endif

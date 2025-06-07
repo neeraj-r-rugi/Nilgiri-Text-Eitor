@@ -5,8 +5,11 @@
 //Variable Declaration
 extern GtkWidget* zoom_popup;//The Label pointer to be displayed when Zooming
 extern GtkWidget * file_saved_popup;
+extern GtkWidget * new_file_saved_popup;
+extern GtkWidget * new_file_saved_enrty;
 extern GtkWidget* search_replace_box;
 extern GtkSourceBuffer *buffer; 
+extern GtkSourceView * text_area;
 extern char file_path[1024];
 extern int * no_cmd_arg;
 
@@ -57,5 +60,10 @@ static int on_command_line(GApplication *, GApplicationCommandLine *, gpointer )
     @param: Update
 */
 static void init_file_saved_overlay(GtkWidget **, GtkWidget *);
+/*
+    @brief: Update
+    @param: Update
+*/
+static void init_new_file_saved_overlay(GtkWidget **, GtkWidget *);
 /*------------------------------------------------------------------------------*/
 #endif
