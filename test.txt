@@ -1,4 +1,6 @@
-LMAO
-LMFAO
-YYYYUUUUUUUUUUU
-HHHHHHHHHHHHHHHHHHHH
+-> Add that Append Feature while trying to save a new file
+-> Add Syntax Highlihting for code files
+-> Add Error handling for un-available files etc...
+-> Update documentation 
+-> Update Readme
+-> Add Better styling in CSS
