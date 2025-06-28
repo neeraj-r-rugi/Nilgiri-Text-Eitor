@@ -7,6 +7,7 @@ short int CURRENT_FONT_SIZE = DEFAULT_FONT_SIZE;
 gboolean IS_DARK_THEME = FALSE;
 gboolean buffer_has_changed = FALSE;
 gboolean quit_program_after_save = FALSE;
+gboolean show_text_highlighting = TRUE;
 
 
 //Functions

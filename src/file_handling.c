@@ -18,6 +18,8 @@ void load_file_into_buffer()
         return;
     }
 
+    set_file_language();
+
     // Set the text in the source buffer
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), content, length);
 

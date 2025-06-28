@@ -48,10 +48,17 @@ gboolean search_key_pressed(GtkWidget * , GdkEventKey * , gpointer );
 */
 gboolean show_search_replace_box(GtkWidget * , GdkEventKey * , gpointer );
 
+gboolean highlight_key_pressed(GtkWidget * , GdkEventKey * , gpointer );
+
+
 gboolean save_key_pressed(GtkWidget* , GdkEventKey* );
 
 void save_at_quit_no(GtkWidget * , gpointer );
 
 void save_at_quit_yes(GtkWidget * , gpointer );
+
+void set_file_language();
+
+void unset_file_language();
 
 #endif

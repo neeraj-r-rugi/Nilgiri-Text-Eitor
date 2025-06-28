@@ -1,4 +1,5 @@
 #include "defines.h"
+//Test Comment
 /*
     @author: Neeraj R Rugi
     @category: Code/Text Editor
@@ -12,7 +13,6 @@
         -> Comments bearing "!External Requirement" indicate header files not present in the standard C Library
 
 */
-
 
 // Global Variables
 GtkWidget * save_at_quit_popup = NULL;
@@ -420,6 +420,7 @@ static void activate(GtkApplication * app, gpointer user_data)
     g_signal_connect(save_at_quit_buttons.button_yes, "clicked", G_CALLBACK(save_at_quit_yes), app);
     g_signal_connect(save_at_quit_buttons.button_no, "clicked", G_CALLBACK(save_at_quit_no), app);
     g_signal_connect(save_at_quit_buttons.cancel, "clicked", G_CALLBACK(cancel_quit), NULL);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(highlight_key_pressed), NULL);
 
 
     //Quits the application after user saves/not saves

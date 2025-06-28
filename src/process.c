@@ -60,6 +60,20 @@ gboolean toggle_dark_theme(GtkWidget *window, GdkEventKey *event) {
     return FALSE;
 }
 
+gboolean highlight_key_pressed(GtkWidget * window, GdkEventKey * event, gpointer user_data){
+    if((event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_H || event->keyval == GDK_KEY_h)){
+        show_text_highlighting = !show_text_highlighting;
+        if(show_text_highlighting){
+            set_file_language();
+        }else{
+            unset_file_language();
+        }
+        return TRUE;
+    }
+    return FALSE;
+
+}
+
 void set_theme(gboolean enable) {
     GtkSettings *theme_settings = gtk_settings_get_default();
     g_object_set(theme_settings, "gtk-application-prefer-dark-theme", enable, NULL);
@@ -72,5 +86,26 @@ void save_at_quit_no(GtkWidget * window, gpointer user_data){
 void save_at_quit_yes(GtkWidget * window, gpointer user_data){
     quit_program_after_save = TRUE;
     save_buffer_to_file();
+}
+
+void set_file_language(){
+    //Set language for text buffer
+    GtkSourceLanguageManager * language_manager = gtk_source_language_manager_get_default();
+    GtkSourceLanguage * file_language = gtk_source_language_manager_guess_language(language_manager, file_path, NULL);
+    if(file_language){
+        gtk_source_buffer_set_language(buffer, file_language);
+        gtk_source_buffer_set_highlight_syntax(buffer, TRUE);
+    }else{
+        file_language = gtk_source_language_manager_get_language(language_manager, "txt");
+        gtk_source_buffer_set_language(buffer, file_language);
+
+    }
+}
+void unset_file_language(){
+    GtkSourceLanguageManager * language_manager = gtk_source_language_manager_get_default();
+    GtkSourceLanguage * file_language = gtk_source_language_manager_get_language(language_manager, "txt");
+    gtk_source_buffer_set_language(buffer, file_language);
+    gtk_source_buffer_set_highlight_syntax(buffer, FALSE);
+
 }
 /******************************************************************************************* */
