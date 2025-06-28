@@ -108,4 +108,44 @@ void unset_file_language(){
     gtk_source_buffer_set_highlight_syntax(buffer, FALSE);
 
 }
+
+char * get_css_file_path() {
+    static char css_path[PATH_MAX];
+    char exe_path[PATH_MAX];
+
+#if defined(_WIN32)
+    wchar_t wpath[MAX_PATH];
+    if (!GetModuleFileNameW(NULL, wpath, MAX_PATH)) {
+        fprintf(stderr, "GetModuleFileNameW failed\n");
+        exit(EXIT_FAILURE);
+    }
+    // Convert wide char to UTF-8
+    WideCharToMultiByte(CP_UTF8, 0, wpath, -1, exe_path, PATH_MAX, NULL, NULL);
+    PathRemoveFileSpecA(exe_path);
+    snprintf(css_path, sizeof(css_path), "%s\\..\\Style.css", exe_path);
+
+#elif defined(__APPLE__)
+    uint32_t size = sizeof(exe_path);
+    if (_NSGetExecutablePath(exe_path, &size) != 0) {
+        fprintf(stderr, "_NSGetExecutablePath buffer too small\n");
+        exit(EXIT_FAILURE);
+    }
+    char exe_copy[PATH_MAX];
+    strncpy(exe_copy, exe_path, PATH_MAX);
+    snprintf(css_path, sizeof(css_path), "%s/../Style.css", dirname(exe_copy));
+
+#else // Linux
+    ssize_t len = readlink("/proc/self/exe", exe_path, sizeof(exe_path) - 1);
+    if (len == -1) {
+        perror("readlink failed");
+        exit(EXIT_FAILURE);
+    }
+    exe_path[len] = '\0';
+    char exe_copy[PATH_MAX];
+    strncpy(exe_copy, exe_path, PATH_MAX);
+    snprintf(css_path, sizeof(css_path), "%s/../Style.css", dirname(exe_copy));
+#endif
+
+    return css_path;
+}
 /******************************************************************************************* */

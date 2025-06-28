@@ -61,4 +61,6 @@ void set_file_language();
 
 void unset_file_language();
 
+char * get_css_file_path(); 
+
 #endif

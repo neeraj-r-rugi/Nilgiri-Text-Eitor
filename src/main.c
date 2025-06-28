@@ -443,6 +443,7 @@ int main(int argc, char **argv)
 {
     GtkApplication *app;
     int status;
+    CSS_FILE_PATH = get_css_file_path();
 
     app = gtk_application_new("com.nilgiri.texteditor", G_APPLICATION_HANDLES_COMMAND_LINE);
     no_cmd_arg = &argc;

@@ -15,7 +15,22 @@
 #include<gtk/gtk.h> //!External Requirement
 #include<gtksourceview/gtksource.h>//!!External Requirement
 
+#if defined(_WIN32)
+    #include <windows.h>
+    #include <wchar.h>
+    #include <shlwapi.h>
+#elif defined(__APPLE__)
+    #include <mach-o/dyld.h>
+    #include <libgen.h>
+    #include <limits.h>
+#else
+    #include <unistd.h>
+    #include <libgen.h>
+    #include <limits.h>
+#endif
 
+
+#define PATH_MAX 4096
 
 //Internal Header Inclusion
 #include "file_handling.h"
@@ -29,7 +44,7 @@
 /********************************************************************* */
 //MACROS FOR THE PROGRAM
 
-#define CSS_FILE_PATH "./Style.css"
+extern char * CSS_FILE_PATH;
 
 /********************************************************************* */
 

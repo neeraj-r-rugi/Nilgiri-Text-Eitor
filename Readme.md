@@ -20,14 +20,15 @@ Begin By installing the:
 
 
 ### How to get started?
-1. Begin by Compiling the editor using the Makefile provided, `If you are on a Linux, then the pre-compiled binary is already provided, you can skip this and the next 2 steps`.
-2. Enter the command: `make` or `mingw32-make`(On Some OS's such as Windows) in the termianl in this directorys context.
+1. Begin by Compiling the editor using the Makefile provided, `The the pre-compiled binary is already provided in the bin directory, you can skip this and the next 2 steps`.
+2. Enter the command: `make` or `mingw32-make` in the `Nilgiri-text-editor` directory(The main directory which the makefile is located)(On Some OS's such as Windows) in the termianl in this directorys context 
+`NOTE:` The makefile is for linux only, you'll need to update it for Windows.
 3. The Binary Executable will be produced and the editor is ready to use!
 4. The editor can perform multiple actions, depending on how it is invoked:
     * Double click the executable: Opens a new file without any content, file can be saved to create a new file.
     * Use the command line to open a file with editor:
-        * Type: _./Nilgiri.out <filename or filepath>_, Opens the currently existing file, If no file is found in that path a new file is created with the same name. 
-        `NOTE`: Care should be take that the terminal's directory context is in the same file as that of the binary, or add the binary to PATH/System Envoirment to invoke it in any directory, or replcae _./Nilgiri.out_ with the actual file path of where the `Nilgiri.out` binary is. 
+        * Type: _./bin/Nilgiri.out <filename or filepath>_ or _.\bin\Nilgiri.exe <filename or filepath>_, Opens the currently existing file at the location of filepath, If no file is found in that path a new file is created with the same name. 
+        `NOTE`: Care should be take that the terminal's directory context is always in the same directory as the makefile, or add the binary to PATH/System Envoirment to invoke it in any directory, or replcae _./bin/Nilgiri.out_ with the actual file path of where the `Nilgiri.out\exe`, example in windows: `D:\Nilgiri-text-editor\bin\Nilgiri.exe`  binary is. The `filepath` is always relative to the directory in which the terminal is invoked and all files created will be in respect to this filepath.
 5. It is best intended to use the `file ribbon's quit button` or `quit key bind` as GUI cross for closing the file is a hard close that does not check is the file is to be saved.
 
 ### Key Binds: 
