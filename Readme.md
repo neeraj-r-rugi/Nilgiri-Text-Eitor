@@ -47,18 +47,18 @@ Begin By installing the:
 
 ### Screenshots of the text editor.
 1. Example of terminal commands:
-    * [](./md_usr_hlp/images/1.png)
+    * ![](./md_usr_hlp/images/1.png)
 2. Blank Window of text editor:
-    * [](./md_usr_hlp/images/2.png)
+    * ![](./md_usr_hlp/images/2.png)
 3. Example of Light mode:
-    * [](./md_usr_hlp/images/3.png)
+    * ![](./md_usr_hlp/images/3.png)
 4. Saving File:
-    * [](./md_usr_hlp/images/4.png)
+    * ![](./md_usr_hlp/images/4.png)
 5. Search Replace:
-    * [](./md_usr_hlp/images/5.png)
-    * [](./md_usr_hlp/images/6.png)
+    * ![](./md_usr_hlp/images/5.png)
+    * ![](./md_usr_hlp/images/6.png)
 6. Exit without saving warning:
-    * [](./md_usr_hlp/images/7.png)
+    * ![](./md_usr_hlp/images/7.png)
 
 
 
