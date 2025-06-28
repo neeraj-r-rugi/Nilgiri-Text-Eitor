@@ -59,6 +59,8 @@ Begin By installing the:
     * ![](./md_usr_hlp/images/6.png)
 6. Exit without saving warning:
     * ![](./md_usr_hlp/images/7.png)
+7. Code Highlighting:
+    * ![](./md_usr_hlp/images/8.png)
 
 
 
