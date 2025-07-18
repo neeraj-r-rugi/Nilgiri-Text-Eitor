@@ -9,7 +9,7 @@ A lightweight, cross-platform text and code editor built with GTK+ 3.0, designed
 - **Zoom Control**: Easy font size adjustment with visual feedback
 - **Dark/Light Theme**: Toggle between themes with system preference support
 - **Auto-indent**: Smart indentation for code editing
-- **Line Numbers**: Optional line numbering for easier navigation
+- **Line Numbers**: line numbering for easier navigation
 - **Cross-platform**: Runs on Linux, macOS, and Windows
 
 ## Screenshots
