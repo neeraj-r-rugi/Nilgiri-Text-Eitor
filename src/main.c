@@ -439,7 +439,7 @@ static void activate(GtkApplication * app, gpointer user_data)
     // g_free(data);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char ** argv)
 {
     GtkApplication *app;
     int status;

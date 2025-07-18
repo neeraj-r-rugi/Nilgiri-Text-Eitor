@@ -143,7 +143,7 @@ char * get_css_file_path() {
     exe_path[len] = '\0';
     char exe_copy[PATH_MAX];
     strncpy(exe_copy, exe_path, PATH_MAX);
-    snprintf(css_path, sizeof(css_path), "%s/../Style.css", dirname(exe_copy));
+    snprintf(css_path, sizeof(css_path), "%s/Style.css", dirname(exe_copy));
 #endif
 
     return css_path;
