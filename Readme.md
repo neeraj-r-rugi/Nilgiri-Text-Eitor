@@ -135,6 +135,7 @@ The editor is structured with modular components:
 - Syntax highlighting is automatically detected based on file extension
 - The application follows GTK+ design patterns and conventions
 - CSS styling is loaded dynamically for theme support
+- ❗ Note: The editor does not prompt to save on close via the window button — this is by design, inspired by minimalist tools like Vim. Use Ctrl + S or menu options to save manually. Closing using Ctrl + Esc does prompt to save before closing.
 
 ## Known Limitations
 
