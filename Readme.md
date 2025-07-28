@@ -2,6 +2,32 @@
 
 A lightweight, cross-platform text and code editor built with GTK+ 3.0, designed for simplicity and efficiency.
 
+## Table of Contents
+
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+    - [Linux/Ubuntu](#linuxubuntu)
+    - [macOS](#macos)
+    - [Windows](#windows)
+  - [Building from Source](#building-from-source)
+- [Usage](#usage)
+  - [Opening Files](#opening-files)
+  - [Keyboard Shortcuts](#keyboard-shortcuts)
+  - [Menu Options](#menu-options)
+- [Technical Details](#technical-details)
+  - [Built With](#built-with)
+  - [Architecture](#architecture)
+  - [System Requirements](#system-requirements)
+- [Contributing](#contributing)
+- [Development Notes](#development-notes)
+- [Known Limitations](#known-limitations)
+- [License](#license)
+- [Support](#support)
+
+---
+
 ## Features
 
 - **Syntax Highlighting**: Automatic language detection and syntax highlighting for various programming languages
