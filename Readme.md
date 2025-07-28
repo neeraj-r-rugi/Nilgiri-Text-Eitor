@@ -71,7 +71,7 @@ For Windows installation, please refer to the detailed guide in [Win_FrameWorks_
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/neeraj-r-rugi/Nilgiri-Text-Eitor
 cd Nilgiri-text-editor
 ```
 
