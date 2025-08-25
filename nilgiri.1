@@ -1,0 +1,209 @@
+.TH NILGIRI 1 "2025-08-25" "Nilgiri Text Editor" "User Commands"
+.SH NAME
+nilgiri \- lightweight, cross-platform text and code editor built with GTK+ 3.0
+.SH SYNOPSIS
+.B Nilgiri
+[\fIFILE\fR]
+.SH DESCRIPTION
+.B Nilgiri
+is a lightweight, cross-platform text and code editor built with GTK+ 3.0, designed for simplicity and efficiency. It provides syntax highlighting, search and replace functionality, theme switching, and other essential text editing features in a clean, minimalist interface.
+.PP
+The editor automatically detects programming languages based on file extensions and applies appropriate syntax highlighting. It supports both light and dark themes and can be controlled entirely through keyboard shortcuts for efficient workflow.
+.SH OPTIONS
+.TP
+.I FILE
+Optional filename to open on startup. If no file is specified, a new untitled document is created.
+.SH KEYBOARD SHORTCUTS
+.TP
+.BR "Ctrl + =" 
+Zoom in (increase font size)
+.TP
+.BR "Ctrl + -"
+Zoom out (decrease font size)
+.TP
+.BR "Ctrl + S"
+Save current file
+.TP
+.BR "Ctrl + F"
+Open search and replace dialog
+.TP
+.BR "Ctrl + H"
+Toggle syntax highlighting on/off
+.TP
+.BR "Ctrl + D"
+Toggle between light and dark theme
+.TP
+.BR "Ctrl + Esc"
+Quit editor (prompts to save if there are unsaved changes)
+.SH FEATURES
+.TP
+.B Syntax Highlighting
+Automatic language detection and syntax highlighting for various programming languages based on file extension.
+.TP
+.B Search & Replace
+Powerful search and replace functionality with text highlighting to show matches.
+.TP
+.B Zoom Control
+Easy font size adjustment with keyboard shortcuts and visual feedback.
+.TP
+.B Theme Support
+Toggle between dark and light themes with system preference support.
+.TP
+.B Auto-indent
+Smart indentation for code editing to maintain proper formatting.
+.TP
+.B Line Numbers
+Optional line numbering display for easier code navigation.
+.TP
+.B Cross-platform
+Runs natively on Linux, macOS, and Windows systems.
+.SH MENU SYSTEM
+The editor provides three main menus accessible from the menu bar:
+.TP
+.B File Menu
+Contains save and quit options for file management.
+.TP
+.B Tools Menu
+Provides access to search and replace functionality.
+.TP
+.B View Menu
+Controls for zoom level and display options.
+.SH EXAMPLES
+.TP
+.B Create a new file:
+Nilgiri
+.TP
+.B Open an existing file:
+Nilgiri example.c
+.TP
+.B Open a text file:
+Nilgiri document.txt
+.TP
+.B Open a Python script:
+Nilgiri script.py
+.SH TECHNICAL DETAILS
+The editor is built using modern GTK+ components:
+.TP
+.B Core Technology
+GTK+ 3.0 cross-platform GUI toolkit
+.TP
+.B Text Widget
+GtkSourceView 3.0 for advanced text editing with syntax highlighting
+.TP
+.B Programming Language
+Written in C for performance and system integration
+.TP
+.B Architecture
+Modular design with separate components for file handling, UI management, and event processing
+.SH SYSTEM REQUIREMENTS
+.TP
+.B GTK+ 3.0 or higher
+Required for GUI functionality
+.TP
+.B GtkSourceView 3.0 or higher  
+Required for syntax highlighting and advanced text editing features
+.TP
+.B GCC compiler
+Required for building from source
+.SH BUILDING FROM SOURCE
+To compile Nilgiri from source code:
+.PP
+.nf
+git clone https://github.com/neeraj-r-rugi/Nilgiri-Text-Editor
+cd Nilgiri-text-editor
+make
+.fi
+.PP
+Prerequisites for different platforms:
+.TP
+.B Linux/Ubuntu:
+sudo apt install build-essential libgtk-3-dev libgtksourceview-3.0-dev
+.TP
+.B macOS:
+brew install gtk+3 gtksourceview3
+.TP
+.B Windows:
+Refer to Win_FrameWorks_hlp.md for detailed Windows setup instructions
+.SH BEHAVIOR NOTES
+.TP
+.B File Saving
+The editor follows a minimalist approach inspired by tools like Vim. It does not automatically prompt to save when closing via the window close button. Users must explicitly save using Ctrl+S or the File menu. However, using Ctrl+Esc to quit will prompt to save unsaved changes.
+.TP
+.B Syntax Detection
+File type and syntax highlighting are automatically determined based on file extension when opening files or saving new files with extensions.
+.TP
+.B Theme Switching
+Theme toggle functionality may not work correctly if the system is set to dark mode, as it may conflict with system preferences.
+.SH SUPPORTED FILE TYPES
+The editor provides syntax highlighting for various programming languages and file types, including but not limited to:
+.IP \(bu 2
+C/C++ source files (.c, .cpp, .h)
+.IP \(bu 2
+Python scripts (.py)
+.IP \(bu 2
+Text files (.txt)
+.IP \(bu 2
+Shell scripts (.sh)
+.IP \(bu 2
+And many other common programming languages
+.SH LIMITATIONS
+.TP
+.B Window Close Behavior
+Hard close using the window's X button does not check for unsaved changes by design.
+.TP
+.B Windows Compilation
+Building on Windows requires manual Makefile updates and proper GTK+ environment setup.
+.TP
+.B Theme Conflicts
+Theme toggle may not function correctly on systems with dark mode enabled by default.
+.SH FILES
+The editor creates and manages various configuration and temporary files as needed for operation, following GTK+ application standards.
+.SH EXIT STATUS
+.TP
+.B 0
+Normal termination
+.TP
+.B 1
+Error in initialization or file operations
+.SH EXAMPLES OF USAGE
+.TP
+.B Typical editing session:
+.nf
+# Open editor with a C source file
+Nilgiri main.c
+
+# Use Ctrl+F to search for functions
+# Use Ctrl+H to toggle syntax highlighting
+# Use Ctrl+S to save changes
+# Use Ctrl+Esc to quit with save prompt
+.fi
+.TP
+.B Theme and display customization:
+.nf
+# Start editor
+Nilgiri document.txt
+
+# Toggle to dark theme
+# Press Ctrl+D
+
+# Increase font size for better readability
+# Press Ctrl+= multiple times
+
+# Search and replace text
+# Press Ctrl+F to open search dialog
+.fi
+.SH ENVIRONMENT
+The editor respects system theme settings and GTK+ configuration when available.
+.SH SEE ALSO
+.BR gtk3 (1),
+.BR vim (1),
+.BR emacs (1),
+.BR gedit (1)
+.SH AUTHOR
+Written as a student project demonstrating GTK+ application development.
+.SH REPORTING BUGS
+Report bugs to the project repository on GitHub. Include system information, steps to reproduce, and expected vs actual behavior.
+.SH COPYRIGHT
+This project is licensed under the MIT License.
+.SH NOTES
+This is a student project demonstrating GTK+ application development. While functional for basic text editing tasks, it may not include all features expected in production text editors. The minimalist design philosophy prioritizes simplicity and efficiency over extensive feature sets.
