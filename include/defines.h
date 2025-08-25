@@ -65,9 +65,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern char * CSS_FILE_PATH;
 
 /********************************************************************* */
-
-
-/********************************************************************* */
 /*
     @about: All global Variable Declarations done here 
 

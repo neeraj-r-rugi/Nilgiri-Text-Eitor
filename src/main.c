@@ -338,12 +338,10 @@ static void activate(GtkApplication * app, gpointer user_data)
 
     
     
-    // Create editor window
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "Nilgiri Text Editor");
     gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
 
-    // Overlay Intialisation
     master_overlay = gtk_overlay_new();
 
     //Menu Ribbon Intialisation
@@ -366,7 +364,6 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_box_pack_start(GTK_BOX(entry_box), replace_all_btn, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(search_replace_box), entry_box, FALSE, FALSE, 0);
 
-    // Make window scrollable
     scrollable_window = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollable_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -399,16 +396,9 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_box_pack_start(GTK_BOX(master_box), master_overlay, TRUE, TRUE, 0);
     gtk_container_add(GTK_CONTAINER(window), master_box);
     
-    // Initialise Zoom overlay
     init_zoom_overlay(&zoom_popup, master_overlay);
-    
-    //Initialise File Saved overlay
     init_file_saved_overlay(&file_saved_popup, master_overlay);
-    
-    //Intialise New File Saved overlay
     init_new_file_saved_overlay(&new_file_saved_popup, master_overlay);
-
-    //Intilaise Save at quit popup
     init_save_at_quit_popup(&save_at_quit_popup, master_overlay);
     
     // Adding Search Replace Overlay
@@ -453,7 +443,6 @@ static void activate(GtkApplication * app, gpointer user_data)
     gtk_widget_hide(file_saved_popup);
     gtk_widget_hide(new_file_saved_popup);
     gtk_widget_hide(save_at_quit_popup);
-    // g_free(data);
 }
 
 int main(int argc, char ** argv)
