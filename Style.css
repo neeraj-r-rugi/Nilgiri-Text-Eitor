@@ -1,42 +1,121 @@
-  #zoom-popup {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 6px;
-    border-radius: 6px;
-    font-weight: bold;
-  }
+/* Modern Text Editor Theme - GTK3 Compatible */
 
-  #search-replace{
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    font-weight: bold;
-  }
+#zoom-popup {
+  background-color: rgba(45, 45, 45, 0.95);
+  background-image: linear-gradient(to bottom, 
+                                    rgba(55, 55, 55, 0.9), 
+                                    rgba(35, 35, 35, 0.95));
+  color: #ffffff;
+  border: 1px solid rgba(80, 80, 80, 0.8);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: "SF Pro Display", "Segoe UI", "Roboto", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  margin: 4px;
+}
 
-  #file-saved-popup{
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 6px;
-    border-radius: 6px;
-    font-weight: bold;
+#search-replace {
+  background-color: rgba(40, 44, 52, 0.96);
+  background-image: linear-gradient(to bottom, 
+                                    rgba(50, 54, 62, 0.95), 
+                                    rgba(35, 39, 47, 0.96));
+  color: #abb2bf;
+  border: 1px solid rgba(86, 91, 110, 0.4);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-family: "SF Pro Text", "Segoe UI", "Roboto", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+              0 2px 6px rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
 
-  }
-  #new-file-saved-popup{
-    background-color: rgb(0, 0, 0);
-    color: white;
-    padding: 20px;
-    border-radius: 6px;
-    font-weight: bold;
+#search-replace:hover {
+  background-color: rgba(45, 49, 57, 0.97);
+  border-color: rgba(100, 105, 124, 0.6);
+}
 
-  }
-  #quit-file-saved-popup{
-    background-color: rgb(0, 0, 0);
-    color: white;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: bold;
-  }
+#file-saved-popup {
+  background-color: rgba(34, 139, 34, 0.92);
+  background-image: linear-gradient(to bottom, 
+                                    rgba(44, 149, 44, 0.9), 
+                                    rgba(24, 129, 24, 0.94));
+  color: #ffffff;
+  border: 1px solid rgba(60, 179, 60, 0.7);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: "SF Pro Text", "Segoe UI", "Roboto", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(34, 139, 34, 0.3),
+              0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 6px;
+}
 
+#new-file-saved-popup {
+  background-color: rgba(30, 30, 30, 0.98);
+  background-image: linear-gradient(to bottom, 
+                                    rgba(40, 40, 40, 0.96), 
+                                    rgba(25, 25, 25, 0.98));
+  color: #f8f8f2;
+  border: 1px solid rgba(70, 70, 70, 0.8);
+  border-radius: 12px;
+  padding: 24px 28px;
+  font-family: "SF Pro Display", "Segoe UI", "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5),
+              0 4px 8px rgba(0, 0, 0, 0.3);
+  margin: 12px;
+}
 
-  
+#new-file-saved-popup:backdrop {
+  background-color: rgba(35, 35, 35, 0.95);
+  color: #d4d4d4;
+}
+
+#quit-file-saved-popup {
+  background-color: rgba(220, 38, 38, 0.94);
+  background-image: linear-gradient(to bottom, 
+                                    rgba(239, 68, 68, 0.92), 
+                                    rgba(185, 28, 28, 0.96));
+  color: #ffffff;
+  border: 1px solid rgba(248, 113, 113, 0.7);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-family: "SF Pro Text", "Segoe UI", "Roboto", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4),
+              0 2px 6px rgba(0, 0, 0, 0.3);
+  margin: 8px;
+}
+
+#quit-file-saved-popup:hover {
+  background-color: rgba(239, 68, 68, 0.96);
+  border-color: rgba(248, 113, 113, 0.9);
+}
+
+/* Additional modern styling for enhanced visual appeal */
+#zoom-popup,
+#search-replace,
+#file-saved-popup,
+#new-file-saved-popup,
+#quit-file-saved-popup {
+  transition: all 200ms ease-out;
+  outline: none;
+}
+
+/* Focus states for accessibility */
+#search-replace:focus {
+  border-color: rgba(59, 130, 246, 0.8);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+#new-file-saved-popup:focus,
+#quit-file-saved-popup:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
